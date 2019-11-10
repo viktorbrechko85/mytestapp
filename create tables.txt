@@ -1,0 +1,29 @@
+CREATE TABLE country (
+    c_id INT PRIMARY KEY AUTO_INCREMENT,
+    c_code CHAR(2) NULL,
+    c_name VARCHAR(255) NULL
+)ENGINE = InnoDB;
+
+CREATE TABLE city (
+    city_id INT PRIMARY KEY AUTO_INCREMENT,
+    country_id INT NOT NULL,
+    city_name VARCHAR(255) NULL,
+    FOREIGN KEY (country_id)
+        REFERENCES country (c_id)
+        ON DELETE CASCADE
+)ENGINE = InnoDB;
+
+CREATE TABLE cityaddr (
+    Id INT PRIMARY KEY AUTO_INCREMENT,
+    country_id INT NOT NULL,
+    city_id INT NOT NULL,
+    city_addr VARCHAR(255) NULL,
+    city_addr_full VARCHAR(255) NULL,
+    coordinati VARCHAR(255) NULL,
+    FOREIGN KEY (country_id)
+        REFERENCES country (c_id)
+        ON DELETE CASCADE,
+    FOREIGN KEY (city_id)
+        REFERENCES city (city_id)
+        ON DELETE CASCADE
+)ENGINE = InnoDB;
