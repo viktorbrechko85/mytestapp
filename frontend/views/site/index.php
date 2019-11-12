@@ -179,7 +179,7 @@ function theNext(locations) {
 </script>
 
 
-<script async defer src="https://maps.googleapis.com/maps/api/js?"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbNSNnyzCZhfN57aV-UBVN-RLZjhh4uQ0&callback=initMap"></script>
           
 
         
