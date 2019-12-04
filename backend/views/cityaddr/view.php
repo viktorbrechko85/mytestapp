@@ -23,6 +23,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Просмотр');
         'arrCountry'=>$arrCountry,
         'arrCity' =>$arrCity,
         'address'=>$address,
+		'mapkey' => $mapkey,
         'view'=>true
     ]) ?>
 

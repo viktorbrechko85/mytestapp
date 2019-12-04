@@ -69,6 +69,7 @@ class CityaddrController extends Controller
             'dataProvider' => $dataProvider,
             'arrCountry'=>$arrCountry,
             'arrCity'=>$arrCity,
+
         ]);
     }
 
@@ -99,7 +100,7 @@ class CityaddrController extends Controller
             'arrCountry'=>$arrCountry,
             'arrCity'=>[],
             'address' => "Ukraine, Mariupol",
-            
+            'mapkey' => Yii::$app->params['googleMapKey'],  
         ]);
     }
 
@@ -140,6 +141,7 @@ class CityaddrController extends Controller
             'arrCountry'=>$arrCountry,
             'arrCity'=>$arrCity,
             'address'=>$address,
+            'mapkey' => Yii::$app->params['googleMapKey'],
         ]);
     }
 
@@ -180,6 +182,7 @@ class CityaddrController extends Controller
             'arrCountry'=>$arrCountry,
             'arrCity'=>$arrCity,
             'address'=>$address,
+            'mapkey' => Yii::$app->params['googleMapKey'],
         ]);
     }
     

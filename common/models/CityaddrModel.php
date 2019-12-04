@@ -30,7 +30,7 @@ class CityaddrModel extends \yii\db\ActiveRecord
         return [
             [['country_id', 'city_id', 'city_addr', 'city_addr_full'], 'required'],
             [['country_id', 'city_id'], 'integer'],
-            [['city_addr', 'coordinati', 'city_addr_full'], 'string', 'max' => 255],
+            [['city_addr', 'city_addr_full'], 'string', 'max' => 255],
         ];
     }
 
@@ -44,7 +44,6 @@ class CityaddrModel extends \yii\db\ActiveRecord
             'country_id' => Yii::t('app', 'Страна'),
             'city_id' => Yii::t('app', 'Город'),
             'city_addr' => Yii::t('app', 'Адрес'),
-            'coordinati' => Yii::t('app', 'coord'),
             'city_addr_full' => Yii::t('app', 'Полный адрес'),
         ];
     }

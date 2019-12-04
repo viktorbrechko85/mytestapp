@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Ноя 11 2019 г., 07:56
+-- Время создания: Дек 04 2019 г., 10:35
 -- Версия сервера: 5.7.26
 -- Версия PHP: 7.2.18
 
@@ -42,10 +42,8 @@ CREATE TABLE IF NOT EXISTS `auth_assignment` (
 --
 
 INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
-('admin', '10', NULL),
-('admin', '5', NULL),
-('user', '13', NULL),
-('user', '7', NULL);
+('admin', '1', NULL),
+('user', '2', NULL);
 
 -- --------------------------------------------------------
 
@@ -72,8 +70,8 @@ CREATE TABLE IF NOT EXISTS `auth_item` (
 --
 
 INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
-('admin', 1, 'Administrator', 'All', NULL, NULL, NULL),
-('user', 1, 'User', 'create', NULL, NULL, NULL);
+('admin', 1, 'Administrator', NULL, NULL, NULL, NULL),
+('user', 1, 'User', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -104,18 +102,6 @@ CREATE TABLE IF NOT EXISTS `auth_rule` (
   PRIMARY KEY (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Дамп данных таблицы `auth_rule`
---
-
-INSERT INTO `auth_rule` (`name`, `data`, `created_at`, `updated_at`) VALUES
-('All', NULL, NULL, NULL),
-('create', NULL, NULL, NULL),
-('delete', NULL, NULL, NULL),
-('index', NULL, NULL, NULL),
-('update', NULL, NULL, NULL),
-('view', NULL, NULL, NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -125,11 +111,11 @@ INSERT INTO `auth_rule` (`name`, `data`, `created_at`, `updated_at`) VALUES
 DROP TABLE IF EXISTS `city`;
 CREATE TABLE IF NOT EXISTS `city` (
   `city_id` int(11) NOT NULL AUTO_INCREMENT,
-  `country_id` int(11) NOT NULL,
+  `country_id` int(11) DEFAULT NULL,
   `city_name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`city_id`),
-  KEY `country_id` (`country_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  KEY `idx-city-country_id` (`country_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `city`
@@ -152,21 +138,20 @@ CREATE TABLE IF NOT EXISTS `cityaddr` (
   `city_id` int(11) NOT NULL,
   `city_addr` varchar(255) DEFAULT NULL,
   `city_addr_full` varchar(255) DEFAULT NULL,
-  `coordinati` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`Id`),
-  KEY `country_id` (`country_id`),
-  KEY `city_id` (`city_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+  KEY `idx-cityaddr-country_id` (`country_id`),
+  KEY `idx-cityaddr-city_id` (`city_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `cityaddr`
 --
 
-INSERT INTO `cityaddr` (`Id`, `country_id`, `city_id`, `city_addr`, `city_addr_full`, `coordinati`) VALUES
-(1, 1, 1, 'бул. Шевченко, 274', 'Украина, Мариуполь, бул. Шевченко, 274', NULL),
-(2, 1, 1, 'Запорожское шоссе, 1', 'Украина, Мариуполь, Запорожское шоссе, 1', NULL),
-(3, 1, 2, 'ул. Дерибасовская, 1', 'Украина, Одесса, ул. Дерибасовская, 1', NULL),
-(5, 1, 2, 'ул. Пушкинская, 13', 'Украина, Одесса, ул. Пушкинская, 13', NULL);
+INSERT INTO `cityaddr` (`Id`, `country_id`, `city_id`, `city_addr`, `city_addr_full`) VALUES
+(1, 1, 1, 'бул. Шевченко, 274', 'Украина, Мариуполь, бул. Шевченко, 274'),
+(2, 1, 1, 'Запорожское шоссе, 1', 'Украина, Мариуполь, Запорожское шоссе, 1'),
+(3, 1, 2, 'ул. Дерибасовская, 1', 'Украина, Одесса, ул. Дерибасовская, 1'),
+(4, 1, 2, 'ул. Пушкинская, 13', 'Украина, Одесса, ул. Пушкинская, 13');
 
 -- --------------------------------------------------------
 
@@ -177,10 +162,10 @@ INSERT INTO `cityaddr` (`Id`, `country_id`, `city_id`, `city_addr`, `city_addr_f
 DROP TABLE IF EXISTS `country`;
 CREATE TABLE IF NOT EXISTS `country` (
   `c_id` int(11) NOT NULL AUTO_INCREMENT,
-  `c_code` char(2) DEFAULT NULL,
-  `c_name` varchar(255) DEFAULT NULL,
+  `c_code` varchar(2) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `c_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`c_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Дамп данных таблицы `country`
@@ -207,14 +192,20 @@ CREATE TABLE IF NOT EXISTS `migration` (
 --
 
 INSERT INTO `migration` (`version`, `apply_time`) VALUES
-('m000000_000000_base', 1572536804),
-('m130524_201442_init', 1572536888),
-('m190124_110200_add_verification_token_column_to_user_table', 1572536889),
-('m140506_102106_rbac_init', 1572890753),
-('m170907_052038_rbac_add_index_on_auth_assignment_user_id', 1572890754),
-('m180523_151638_rbac_updates_indexes_without_prefix', 1572890756),
-('m191110_214623_add_admin_to_user_table', 1573423659),
-('m191110_215515_add_guest_to_user_table', 1573423770);
+('m000000_000000_base', 1575454997),
+('m130524_201442_init', 1575455007),
+('m190124_110200_add_verification_token_column_to_user_table', 1575455008),
+('m191110_214623_add_admin_to_user_table', 1575455011),
+('m191110_215515_add_guest_to_user_table', 1575455014),
+('m191203_195902_create_table_country', 1575455014),
+('m191203_195911_create_city_table', 1575455014),
+('m191203_195912_create_Cityaddr_table', 1575455015),
+('m191203_200104_add_data_into_country', 1575455015),
+('m191203_200112_add_data_into_city', 1575455015),
+('m191203_214735_add_datainto_Cityaddr_table', 1575455015),
+('m140506_102106_rbac_init', 1575455121),
+('m170907_052038_rbac_add_index_on_auth_assignment_user_id', 1575455121),
+('m180523_151638_rbac_updates_indexes_without_prefix', 1575455122);
 
 -- --------------------------------------------------------
 
@@ -238,17 +229,15 @@ CREATE TABLE IF NOT EXISTS `user` (
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `password_reset_token` (`password_reset_token`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Дамп данных таблицы `user`
 --
 
 INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_reset_token`, `email`, `status`, `created_at`, `updated_at`, `verification_token`) VALUES
-(5, 'Viktor', '7cx9Afy_7hDZ7gi2mg-ZgCWyySEIU7Ex', '$2y$13$2Mag2aTeLlSZNyQiUWet7e5aGxhvmfD4.2nPMC2QM4lqBHR4Bb8ha', NULL, 'vbrobocop1985@gmail.com', 10, 1572622525, 1572622525, 'dXf6cMKmx3NRJF5fulEjsVVznS2VTx49_1572622525'),
-(7, 'Elena', '7cx9Afy_7hDZ7gi2mg-ZgCWyySEIU7Ex', '$2y$13$2Mag2aTeLlSZNyQiUWet7e5aGxhvmfD4.2nPMC2QM4lqBHR4Bb8ha', NULL, 'Elena@elena.com', 10, 1572622525, 1572622525, 'dXf6cMKmx3NRJF5fulEjsVVznS2VTx49_1572622525'),
-(10, 'admin', 'adminadmin', '$2y$13$tIOY2R1ZKoaqZIyN8gA0lOQvmgYzcLYRuSFFeSkJnv92SW1FfeAbq', NULL, 'admin@example.com', 10, 1573423659, 1573423659, NULL),
-(13, 'guest', 'guestguest', '$2y$13$ppkbqZ85pNTk5sqLCBqDt.HHTzCEMsieT3nRY3Dl1tC4i36q5AGGq', NULL, 'guest@example.com', 10, 1573423770, 1573423770, NULL);
+(1, 'admin', 'adminadmin', '$2y$13$4AxMNUqKuh/KZL2DFwOo0.F0HF8afr/sOh2P0WL0StctjT2JLQxEq', NULL, 'admin@example.com', 10, 1575455011, 1575455011, NULL),
+(2, 'guest', 'guestguest', '$2y$13$EZggcL49nV0NZUqkCFiPCO00kE0D9li7vU6AM58pBtdP7py8g1HqS', NULL, 'guest@example.com', 10, 1575455014, 1575455014, NULL);
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
@@ -272,19 +261,6 @@ ALTER TABLE `auth_item`
 ALTER TABLE `auth_item_child`
   ADD CONSTRAINT `auth_item_child_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `auth_item_child_ibfk_2` FOREIGN KEY (`child`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Ограничения внешнего ключа таблицы `city`
---
-ALTER TABLE `city`
-  ADD CONSTRAINT `city_ibfk_1` FOREIGN KEY (`country_id`) REFERENCES `country` (`c_id`) ON DELETE CASCADE;
-
---
--- Ограничения внешнего ключа таблицы `cityaddr`
---
-ALTER TABLE `cityaddr`
-  ADD CONSTRAINT `cityaddr_ibfk_1` FOREIGN KEY (`country_id`) REFERENCES `country` (`c_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `cityaddr_ibfk_2` FOREIGN KEY (`city_id`) REFERENCES `city` (`city_id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -84,6 +84,8 @@ $this->title = 'My Yii Application';
             $arrCityaddrFull[$ind] = $cityaddr->city_addr_full;
             $ind++;
         }*/
+       
+        
     ?>
 
     <div id="map"></div>
@@ -94,6 +96,7 @@ var map;
 var geocoder;
 var bounds;
 var infowindow;
+
 function MyfuncGeo(loc){
     locations=loc;
     nextAddress = 0;
@@ -178,8 +181,9 @@ function theNext(locations) {
 */
 </script>
 
-
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=YourKey&callback=initMap"></script>
+<script 
+    async defer src="https://maps.googleapis.com/maps/api/js?key=<?= $mapkey ?>&callback=initMap">
+</script>
           
 
         

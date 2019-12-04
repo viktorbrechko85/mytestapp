@@ -111,7 +111,8 @@ class SiteController extends Controller
             'arrCountry'=>$arrCountry,
             'arrCity'=>$arrCity,
             'arrCityaddr'=>$arrCityaddr, 
-            'cityaddrs'=>$cityaddrs,   
+            'cityaddrs'=>$cityaddrs, 
+            'mapkey' => Yii::$app->params['googleMapKey']  
         ]);
     }
 

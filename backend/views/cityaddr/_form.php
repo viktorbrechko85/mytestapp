@@ -129,7 +129,9 @@ function initMap() {
 
 </script>
 
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=YourKey&callback=initMap"></script>
+<script 
+    async defer src="https://maps.googleapis.com/maps/api/js?key=<?= $mapkey ?>&callback=initMap">
+</script>
           
 
         

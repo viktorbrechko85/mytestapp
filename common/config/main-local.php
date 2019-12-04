@@ -10,14 +10,6 @@ return [
         ],
         'assetManager' => [
             'bundles' => [
-                'dosamigos\google\maps\MapAsset' => [
-                    'options' => [
-                        'key' => 'AIzaSyCbNSNnyzCZhfN57aV-UBVN-RLZjhh4uQ0',
-                        'libraries' => 'places',
-                        'v' => '3.exp',
-                        'sensor'=> 'false'
-                    ]
-                ],
                 'bundles' => [
                     'kartik\form\ActiveFormAsset' => [
                         'bsDependencyEnabled' => false // do not load bootstrap assets for a specific asset bundle
@@ -33,7 +25,7 @@ return [
             // for the mailer to send real emails.
             'useFileTransport' => true,
         ],
-        'authManager' => [
+		'authManager' => [
             'class' => 'yii\rbac\DbManager',
             'cache' => 'cache',
             'defaultRoles'    => ['guest'],
